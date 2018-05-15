@@ -6,9 +6,26 @@ import (
 
 	"code.cloudfoundry.org/cli/actor/v2action"
 	"code.cloudfoundry.org/cli/actor/v2v3action"
+	"code.cloudfoundry.org/cli/cf/manifest"
 )
 
 type FakeV2Actor struct {
+	CreateManifestApplicationStub        func(string, string) (manifest.Application, v2action.Warnings, error)
+	createManifestApplicationMutex       sync.RWMutex
+	createManifestApplicationArgsForCall []struct {
+		arg1 string
+		arg2 string
+	}
+	createManifestApplicationReturns struct {
+		result1 manifest.Application
+		result2 v2action.Warnings
+		result3 error
+	}
+	createManifestApplicationReturnsOnCall map[int]struct {
+		result1 manifest.Application
+		result2 v2action.Warnings
+		result3 error
+	}
 	GetFeatureFlagsStub        func() ([]v2action.FeatureFlag, v2action.Warnings, error)
 	getFeatureFlagsMutex       sync.RWMutex
 	getFeatureFlagsArgsForCall []struct{}
@@ -86,6 +103,61 @@ type FakeV2Actor struct {
 	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
+}
+
+func (fake *FakeV2Actor) CreateManifestApplication(arg1 string, arg2 string) (manifest.Application, v2action.Warnings, error) {
+	fake.createManifestApplicationMutex.Lock()
+	ret, specificReturn := fake.createManifestApplicationReturnsOnCall[len(fake.createManifestApplicationArgsForCall)]
+	fake.createManifestApplicationArgsForCall = append(fake.createManifestApplicationArgsForCall, struct {
+		arg1 string
+		arg2 string
+	}{arg1, arg2})
+	fake.recordInvocation("CreateManifestApplication", []interface{}{arg1, arg2})
+	fake.createManifestApplicationMutex.Unlock()
+	if fake.CreateManifestApplicationStub != nil {
+		return fake.CreateManifestApplicationStub(arg1, arg2)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2, ret.result3
+	}
+	return fake.createManifestApplicationReturns.result1, fake.createManifestApplicationReturns.result2, fake.createManifestApplicationReturns.result3
+}
+
+func (fake *FakeV2Actor) CreateManifestApplicationCallCount() int {
+	fake.createManifestApplicationMutex.RLock()
+	defer fake.createManifestApplicationMutex.RUnlock()
+	return len(fake.createManifestApplicationArgsForCall)
+}
+
+func (fake *FakeV2Actor) CreateManifestApplicationArgsForCall(i int) (string, string) {
+	fake.createManifestApplicationMutex.RLock()
+	defer fake.createManifestApplicationMutex.RUnlock()
+	return fake.createManifestApplicationArgsForCall[i].arg1, fake.createManifestApplicationArgsForCall[i].arg2
+}
+
+func (fake *FakeV2Actor) CreateManifestApplicationReturns(result1 manifest.Application, result2 v2action.Warnings, result3 error) {
+	fake.CreateManifestApplicationStub = nil
+	fake.createManifestApplicationReturns = struct {
+		result1 manifest.Application
+		result2 v2action.Warnings
+		result3 error
+	}{result1, result2, result3}
+}
+
+func (fake *FakeV2Actor) CreateManifestApplicationReturnsOnCall(i int, result1 manifest.Application, result2 v2action.Warnings, result3 error) {
+	fake.CreateManifestApplicationStub = nil
+	if fake.createManifestApplicationReturnsOnCall == nil {
+		fake.createManifestApplicationReturnsOnCall = make(map[int]struct {
+			result1 manifest.Application
+			result2 v2action.Warnings
+			result3 error
+		})
+	}
+	fake.createManifestApplicationReturnsOnCall[i] = struct {
+		result1 manifest.Application
+		result2 v2action.Warnings
+		result3 error
+	}{result1, result2, result3}
 }
 
 func (fake *FakeV2Actor) GetFeatureFlags() ([]v2action.FeatureFlag, v2action.Warnings, error) {
@@ -355,6 +427,8 @@ func (fake *FakeV2Actor) GetSpaceByOrganizationAndNameReturnsOnCall(i int, resul
 func (fake *FakeV2Actor) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
+	fake.createManifestApplicationMutex.RLock()
+	defer fake.createManifestApplicationMutex.RUnlock()
 	fake.getFeatureFlagsMutex.RLock()
 	defer fake.getFeatureFlagsMutex.RUnlock()
 	fake.getServiceMutex.RLock()
