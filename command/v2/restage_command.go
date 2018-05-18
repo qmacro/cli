@@ -85,7 +85,7 @@ func (cmd RestageCommand) Execute(args []string) error {
 		return err
 	}
 
-	shared.DisplayAppSummary(cmd.UI, appSummary, true)
+	shared.DisplayApplicationSummary(cmd.UI, appSummary, true)
 
 	return nil
 }

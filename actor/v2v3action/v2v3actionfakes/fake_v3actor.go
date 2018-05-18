@@ -9,11 +9,11 @@ import (
 )
 
 type FakeV3Actor struct {
-	GetApplicationByNameAndSpaceStub        func(string, string) (v3action.Application, v3action.Warnings, error)
+	GetApplicationByNameAndSpaceStub        func(appName string, spaceGUID string) (v3action.Application, v3action.Warnings, error)
 	getApplicationByNameAndSpaceMutex       sync.RWMutex
 	getApplicationByNameAndSpaceArgsForCall []struct {
-		arg1 string
-		arg2 string
+		appName   string
+		spaceGUID string
 	}
 	getApplicationByNameAndSpaceReturns struct {
 		result1 v3action.Application
@@ -83,17 +83,17 @@ type FakeV3Actor struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeV3Actor) GetApplicationByNameAndSpace(arg1 string, arg2 string) (v3action.Application, v3action.Warnings, error) {
+func (fake *FakeV3Actor) GetApplicationByNameAndSpace(appName string, spaceGUID string) (v3action.Application, v3action.Warnings, error) {
 	fake.getApplicationByNameAndSpaceMutex.Lock()
 	ret, specificReturn := fake.getApplicationByNameAndSpaceReturnsOnCall[len(fake.getApplicationByNameAndSpaceArgsForCall)]
 	fake.getApplicationByNameAndSpaceArgsForCall = append(fake.getApplicationByNameAndSpaceArgsForCall, struct {
-		arg1 string
-		arg2 string
-	}{arg1, arg2})
-	fake.recordInvocation("GetApplicationByNameAndSpace", []interface{}{arg1, arg2})
+		appName   string
+		spaceGUID string
+	}{appName, spaceGUID})
+	fake.recordInvocation("GetApplicationByNameAndSpace", []interface{}{appName, spaceGUID})
 	fake.getApplicationByNameAndSpaceMutex.Unlock()
 	if fake.GetApplicationByNameAndSpaceStub != nil {
-		return fake.GetApplicationByNameAndSpaceStub(arg1, arg2)
+		return fake.GetApplicationByNameAndSpaceStub(appName, spaceGUID)
 	}
 	if specificReturn {
 		return ret.result1, ret.result2, ret.result3
@@ -110,7 +110,7 @@ func (fake *FakeV3Actor) GetApplicationByNameAndSpaceCallCount() int {
 func (fake *FakeV3Actor) GetApplicationByNameAndSpaceArgsForCall(i int) (string, string) {
 	fake.getApplicationByNameAndSpaceMutex.RLock()
 	defer fake.getApplicationByNameAndSpaceMutex.RUnlock()
-	return fake.getApplicationByNameAndSpaceArgsForCall[i].arg1, fake.getApplicationByNameAndSpaceArgsForCall[i].arg2
+	return fake.getApplicationByNameAndSpaceArgsForCall[i].appName, fake.getApplicationByNameAndSpaceArgsForCall[i].spaceGUID
 }
 
 func (fake *FakeV3Actor) GetApplicationByNameAndSpaceReturns(result1 v3action.Application, result2 v3action.Warnings, result3 error) {

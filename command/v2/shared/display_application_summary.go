@@ -10,9 +10,9 @@ import (
 	"code.cloudfoundry.org/cli/command"
 )
 
-// DisplayAppSummary displays the application summary to the UI, and optionally
-// the command to start the app.
-func DisplayAppSummary(ui command.UI, appSummary v2action.ApplicationSummary, displayStartCommand bool) {
+// DisplayApplicationSummary displays the application summary to the UI, and
+// optionally the command to start the app.
+func DisplayApplicationSummary(ui command.UI, appSummary v2action.ApplicationSummary, displayStartCommand bool) {
 	instances := fmt.Sprintf("%d/%d", appSummary.StartingOrRunningInstanceCount(), appSummary.Instances.Value)
 
 	usage := ui.TranslateText(

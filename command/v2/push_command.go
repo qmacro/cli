@@ -221,7 +221,7 @@ func (cmd V2PushCommand) Execute(args []string) error {
 			return err
 		}
 
-		shared.DisplayAppSummary(cmd.UI, appSummary, true)
+		shared.DisplayApplicationSummary(cmd.UI, appSummary, true)
 
 		if appNumber+1 <= len(appConfigs) {
 			cmd.UI.DisplayNewline()

@@ -10,11 +10,11 @@ import (
 )
 
 type FakeV2Actor struct {
-	CreateApplicationManifestByNameAndSpaceStub        func(string, string) (manifest.Application, v2action.Warnings, error)
+	CreateApplicationManifestByNameAndSpaceStub        func(name string, spaceGUID string) (manifest.Application, v2action.Warnings, error)
 	createApplicationManifestByNameAndSpaceMutex       sync.RWMutex
 	createApplicationManifestByNameAndSpaceArgsForCall []struct {
-		arg1 string
-		arg2 string
+		name      string
+		spaceGUID string
 	}
 	createApplicationManifestByNameAndSpaceReturns struct {
 		result1 manifest.Application
@@ -23,6 +23,22 @@ type FakeV2Actor struct {
 	}
 	createApplicationManifestByNameAndSpaceReturnsOnCall map[int]struct {
 		result1 manifest.Application
+		result2 v2action.Warnings
+		result3 error
+	}
+	GetApplicationSummaryByNameAndSpaceStub        func(name string, spaceGUID string) (v2action.ApplicationSummary, v2action.Warnings, error)
+	getApplicationSummaryByNameAndSpaceMutex       sync.RWMutex
+	getApplicationSummaryByNameAndSpaceArgsForCall []struct {
+		name      string
+		spaceGUID string
+	}
+	getApplicationSummaryByNameAndSpaceReturns struct {
+		result1 v2action.ApplicationSummary
+		result2 v2action.Warnings
+		result3 error
+	}
+	getApplicationSummaryByNameAndSpaceReturnsOnCall map[int]struct {
+		result1 v2action.ApplicationSummary
 		result2 v2action.Warnings
 		result3 error
 	}
@@ -105,17 +121,17 @@ type FakeV2Actor struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeV2Actor) CreateApplicationManifestByNameAndSpace(arg1 string, arg2 string) (manifest.Application, v2action.Warnings, error) {
+func (fake *FakeV2Actor) CreateApplicationManifestByNameAndSpace(name string, spaceGUID string) (manifest.Application, v2action.Warnings, error) {
 	fake.createApplicationManifestByNameAndSpaceMutex.Lock()
 	ret, specificReturn := fake.createApplicationManifestByNameAndSpaceReturnsOnCall[len(fake.createApplicationManifestByNameAndSpaceArgsForCall)]
 	fake.createApplicationManifestByNameAndSpaceArgsForCall = append(fake.createApplicationManifestByNameAndSpaceArgsForCall, struct {
-		arg1 string
-		arg2 string
-	}{arg1, arg2})
-	fake.recordInvocation("CreateApplicationManifestByNameAndSpace", []interface{}{arg1, arg2})
+		name      string
+		spaceGUID string
+	}{name, spaceGUID})
+	fake.recordInvocation("CreateApplicationManifestByNameAndSpace", []interface{}{name, spaceGUID})
 	fake.createApplicationManifestByNameAndSpaceMutex.Unlock()
 	if fake.CreateApplicationManifestByNameAndSpaceStub != nil {
-		return fake.CreateApplicationManifestByNameAndSpaceStub(arg1, arg2)
+		return fake.CreateApplicationManifestByNameAndSpaceStub(name, spaceGUID)
 	}
 	if specificReturn {
 		return ret.result1, ret.result2, ret.result3
@@ -132,7 +148,7 @@ func (fake *FakeV2Actor) CreateApplicationManifestByNameAndSpaceCallCount() int 
 func (fake *FakeV2Actor) CreateApplicationManifestByNameAndSpaceArgsForCall(i int) (string, string) {
 	fake.createApplicationManifestByNameAndSpaceMutex.RLock()
 	defer fake.createApplicationManifestByNameAndSpaceMutex.RUnlock()
-	return fake.createApplicationManifestByNameAndSpaceArgsForCall[i].arg1, fake.createApplicationManifestByNameAndSpaceArgsForCall[i].arg2
+	return fake.createApplicationManifestByNameAndSpaceArgsForCall[i].name, fake.createApplicationManifestByNameAndSpaceArgsForCall[i].spaceGUID
 }
 
 func (fake *FakeV2Actor) CreateApplicationManifestByNameAndSpaceReturns(result1 manifest.Application, result2 v2action.Warnings, result3 error) {
@@ -155,6 +171,61 @@ func (fake *FakeV2Actor) CreateApplicationManifestByNameAndSpaceReturnsOnCall(i 
 	}
 	fake.createApplicationManifestByNameAndSpaceReturnsOnCall[i] = struct {
 		result1 manifest.Application
+		result2 v2action.Warnings
+		result3 error
+	}{result1, result2, result3}
+}
+
+func (fake *FakeV2Actor) GetApplicationSummaryByNameAndSpace(name string, spaceGUID string) (v2action.ApplicationSummary, v2action.Warnings, error) {
+	fake.getApplicationSummaryByNameAndSpaceMutex.Lock()
+	ret, specificReturn := fake.getApplicationSummaryByNameAndSpaceReturnsOnCall[len(fake.getApplicationSummaryByNameAndSpaceArgsForCall)]
+	fake.getApplicationSummaryByNameAndSpaceArgsForCall = append(fake.getApplicationSummaryByNameAndSpaceArgsForCall, struct {
+		name      string
+		spaceGUID string
+	}{name, spaceGUID})
+	fake.recordInvocation("GetApplicationSummaryByNameAndSpace", []interface{}{name, spaceGUID})
+	fake.getApplicationSummaryByNameAndSpaceMutex.Unlock()
+	if fake.GetApplicationSummaryByNameAndSpaceStub != nil {
+		return fake.GetApplicationSummaryByNameAndSpaceStub(name, spaceGUID)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2, ret.result3
+	}
+	return fake.getApplicationSummaryByNameAndSpaceReturns.result1, fake.getApplicationSummaryByNameAndSpaceReturns.result2, fake.getApplicationSummaryByNameAndSpaceReturns.result3
+}
+
+func (fake *FakeV2Actor) GetApplicationSummaryByNameAndSpaceCallCount() int {
+	fake.getApplicationSummaryByNameAndSpaceMutex.RLock()
+	defer fake.getApplicationSummaryByNameAndSpaceMutex.RUnlock()
+	return len(fake.getApplicationSummaryByNameAndSpaceArgsForCall)
+}
+
+func (fake *FakeV2Actor) GetApplicationSummaryByNameAndSpaceArgsForCall(i int) (string, string) {
+	fake.getApplicationSummaryByNameAndSpaceMutex.RLock()
+	defer fake.getApplicationSummaryByNameAndSpaceMutex.RUnlock()
+	return fake.getApplicationSummaryByNameAndSpaceArgsForCall[i].name, fake.getApplicationSummaryByNameAndSpaceArgsForCall[i].spaceGUID
+}
+
+func (fake *FakeV2Actor) GetApplicationSummaryByNameAndSpaceReturns(result1 v2action.ApplicationSummary, result2 v2action.Warnings, result3 error) {
+	fake.GetApplicationSummaryByNameAndSpaceStub = nil
+	fake.getApplicationSummaryByNameAndSpaceReturns = struct {
+		result1 v2action.ApplicationSummary
+		result2 v2action.Warnings
+		result3 error
+	}{result1, result2, result3}
+}
+
+func (fake *FakeV2Actor) GetApplicationSummaryByNameAndSpaceReturnsOnCall(i int, result1 v2action.ApplicationSummary, result2 v2action.Warnings, result3 error) {
+	fake.GetApplicationSummaryByNameAndSpaceStub = nil
+	if fake.getApplicationSummaryByNameAndSpaceReturnsOnCall == nil {
+		fake.getApplicationSummaryByNameAndSpaceReturnsOnCall = make(map[int]struct {
+			result1 v2action.ApplicationSummary
+			result2 v2action.Warnings
+			result3 error
+		})
+	}
+	fake.getApplicationSummaryByNameAndSpaceReturnsOnCall[i] = struct {
+		result1 v2action.ApplicationSummary
 		result2 v2action.Warnings
 		result3 error
 	}{result1, result2, result3}
@@ -429,6 +500,8 @@ func (fake *FakeV2Actor) Invocations() map[string][][]interface{} {
 	defer fake.invocationsMutex.RUnlock()
 	fake.createApplicationManifestByNameAndSpaceMutex.RLock()
 	defer fake.createApplicationManifestByNameAndSpaceMutex.RUnlock()
+	fake.getApplicationSummaryByNameAndSpaceMutex.RLock()
+	defer fake.getApplicationSummaryByNameAndSpaceMutex.RUnlock()
 	fake.getFeatureFlagsMutex.RLock()
 	defer fake.getFeatureFlagsMutex.RUnlock()
 	fake.getServiceMutex.RLock()
